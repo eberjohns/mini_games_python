@@ -20,7 +20,7 @@ git clone https://github.com/eberjohns/mini_games_python.git
 
 ## Current Games
 
-* **Tic Tac Toe:** A classic two-player game where players take turns marking spaces in a 3x3 grid with their symbol ('X' or 'O'), trying to get three in a row.
+* **TicTacToe:** A classic two-player game where players take turns marking spaces in a 3x3 grid with their symbol ('X' or 'O'), trying to get three in a row.
 
 ## Contributing
 
