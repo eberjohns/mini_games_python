@@ -42,7 +42,7 @@ def victory_for(board, sign):
     for i in range(3):
         if board[0][i] == board[1][i] == board[2][i]: return True
     
-    #if board[0][0] == board[0][1] == board[0][2]: return True
+    #if   board[0][0] == board[0][1] == board[0][2]: return True
     #elif board[1][0] == board[1][1] == board[1][2]: return True
     #elif board[2][0] == board[2][1] == board[2][2]: return True
     
@@ -50,7 +50,7 @@ def victory_for(board, sign):
     #elif board[0][1] == board[1][1] == board[2][1]: return True
     #elif board[0][2] == board[1][2] == board[2][2]: return True
     
-    if board[0][0] == board[1][1] == board[2][2]: return True
+    if   board[0][0] == board[1][1] == board[2][2]: return True
     elif board[2][0] == board[1][1] == board[0][2]: return True
     else: return False
 
@@ -67,19 +67,31 @@ def draw_move(board):
     display_board(board)
     
 
-board=[[1,2,3],[4,"x",6],[7,8,9]]
-display_board(board)
-x=0
-vic = False
-while not vic and x<8:
-    if x%2:
-        draw_move(board)
-        vic = victory_for(board,"x")
-    else:
-        enter_move(board)
-        vic = victory_for(board,"o")
-    x +=1
+# The function initializes the game, draws the board, and starts the game loop.
+def game_round():
+    board=[[1,2,3],[4,"x",6],[7,8,9]]
+    display_board(board)
+    x=0
+    vic = False
+    while not vic and x<8:
+        if x%2:
+            draw_move(board)
+            vic = victory_for(board,"x")
+        else:
+            enter_move(board)
+            vic = victory_for(board,"o")
+        x +=1
 
-if x==8: print("Draw!")
-elif x%2: print("You Won!")
-else: print("I Won!")
+    if x==8: print("Draw!")
+    elif x%2: print("You Won!")
+    else: print("I Won!")
+
+def main():
+    print("Welcome to Tic Tac Toe!")
+    want_to_play = "y"
+    while want_to_play == "y":
+        game_round()
+        want_to_play = input("Do you want to play again? (y/n): ").lower()
+    print("Thanks for playing!")
+
+main()
