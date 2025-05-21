@@ -1,38 +1,24 @@
 from random import randrange
 
-def display_board(board):
+# display_board(board,n,sign) to print the board
+# victory_for(board, sign)    to check if a player has won
+# computer_move(board)        to draw the computer's move
+# person_move(board)          to draw the player's move
+# game_round()                to initialize the game
+
+def display_board(board,n=0, sign=''):
     # The function accepts one parameter containing the board's current status
     # and prints it out to the console.
+    if n!=0:
+        n -=1
+        board[(int(n/3))][n-((int(n/3))*3)]=sign
+    
     for row in range(3):
         print("+-------+-------+-------+")
         print("|       |       |       |")
         print("|   {}   |   {}   |   {}   |".format(board[row][0],board[row][1],board[row][2]))
         print("|       |       |       |")
     print("+-------+-------+-------+")
-
-
-def enter_move(board):
-    # The function accepts the board's current status, asks the user about their move, 
-    # checks the input, and updates the board according to the user's decision.
-    found = False
-    while not found:
-        n = int(input("Enter your move: "))
-        for row in board:
-            if n in row: found=True
-    n -=1
-    board[(int(n/3))][n-((int(n/3))*3)]="o"
-    
-    # if n==0 or n==1 or n==2: board[0][n]="o"
-    # elif n==3 or n==4 or n==5: board[1][n-3]="o"
-    # elif n==6 or n==7 or n==8: board[2][n-6]="o"
-    display_board(board)
-
-
-# def make_list_of_free_fields(board):
-#     # The function browses the board and builds a list of all the free squares; 
-#     # the list consists of tuples, while each tuple is a pair of row and column numbers.
-#     pass
-
 
 def victory_for(board, sign):
     # The function analyzes the board's status in order to check if 
@@ -55,17 +41,24 @@ def victory_for(board, sign):
     else: return False
 
 
-def draw_move(board):
+def computer_move(board):
     # The function draws the computer's move and updates the board.
     found = False
     while not found:
         n = randrange(1,10)
         for row in board:
             if n in row: found=True
-    n -= 1
-    board[(int(n/3))][n-((int(n/3))*3)]="x"
-    display_board(board)
-    
+    display_board(board,n,'x')
+
+def person_move(board):
+    # The function accepts the board's current status, asks the user about their move, 
+    # checks the input, and updates the board according to the user's decision.
+    found = False
+    while not found:
+        n = int(input("Enter your move: "))
+        for row in board:
+            if n in row: found=True
+    display_board(board,n,'o')
 
 # The function initializes the game, draws the board, and starts the game loop.
 def game_round():
@@ -75,10 +68,10 @@ def game_round():
     vic = False
     while not vic and x<8:
         if x%2:
-            draw_move(board)
+            computer_move(board)
             vic = victory_for(board,"x")
         else:
-            enter_move(board)
+            person_move(board)
             vic = victory_for(board,"o")
         x +=1
 
