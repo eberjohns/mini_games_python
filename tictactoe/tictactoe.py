@@ -6,13 +6,9 @@ from random import randrange
 # person_move(board,sign)          to draw the player's move
 # game_round(option)                to initialize the game
 
-def display_board(board,n=0, sign=''):
+def display_board(board):
     # The function accepts one parameter containing the board's current status
     # and prints it out to the console.
-    if n!=0:
-        n -=1
-        board[(int(n/3))][n-((int(n/3))*3)]=sign
-    
     for row in range(3):
         print("+-------+-------+-------+")
         print("|       |       |       |")
@@ -40,68 +36,97 @@ def victory_for(board, sign):
     elif board[2][0] == board[1][1] == board[0][2]: return True
     else: return False
 
+def calculate(board,n,sign):
+    # The function accepts two parameters: the number of moves made and the sign of the player.
+    # It returns the number of moves made by the player.
+    n -=1
+    board[(int(n/3))][n-((int(n/3))*3)]=sign
+
+    display_board(board)
+    
+def number_available(board,n):
+    # The function checks if the position is available for the move.
+    for row in board:
+        if n in row: return False
+    return True
 
 def computer_move(board):
     # The function draws the computer's move and updates the board.
     found = False
     while not found:
         n = randrange(1,10)
-        for row in board:
-            if n in row: found=True
-    display_board(board,n,'x')
+        if number_available(board,n):
+            found = True
 
-def person_move(board, sign='c'):
+    calculate(board,n,'x')
+
+def person_move(board):
     # The function accepts the board's current status, asks the user about their move, 
     # checks the input, and updates the board according to the user's decision.
     found = False
     while not found:
-        if sign=='c':
+        try:
             n = int(input("Enter your move: "))
-        else:
+            if n < 1 or n > 9:
+                print("Invalid move. Please enter a number between 1 and 9.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+        
+            else: print("Postion already taken!")
+
+    calculate(board,n,'o')
+
+def pvp(board,sign):
+    # The function accepts the board's current status and the sign of the player,
+    # asks the user about their move, checks the input, and updates the board
+    # according to the user's decision.
+    found = False
+    while not found:
+        try:
             n = int(input("Enter your move, Person "+sign+": "))
+            if n < 1 or n > 9:
+                print("Invalid move. Please enter a number between 1 and 9.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
         for row in board:
             if n in row: found=True
-    if sign=='c':
-        display_board(board,n,'o')
-    else:
-        display_board(board,n,sign)
+        if not found: print("Postion already taken!")
+
+    calculate(board,n,sign)
 
 # The function initializes the game, draws the board, and starts the game loop.
 def game_round(option:int):
-    if (option-1):
+    if (option==2):
         board=[[1,2,3],[4,5,6],[7,8,9]]
         x=-1
     else:
         board=[[1,2,3],[4,"x",6],[7,8,9]]
         x=0
     display_board(board)
-    vic = False
-    while not vic and x<8:
+    vic = ''
+    while vic=='' and x<8:
         if x%2:
-            if(option-1):
-                person_move(board,"x")
+            if(option==2):
+                pvp(board,"x")
             else:
                 computer_move(board)            
-            vic = victory_for(board,"x")
+            vic = 'x' if victory_for(board,"x") else ''
         else:
-            if(option-1):
-                person_move(board,"o")
+            if(option==2):
+                pvp(board,"o")
             else:
                 person_move(board)
-            vic = victory_for(board,"o")
+            vic = 'o' if victory_for(board,"o") else ''
         x +=1
 
-    if x==8: print("Draw!")
-    elif x%2: 
-        if (option-1):
-            print("Person O Wins!")
-        else:
-            print("You Won!")
+    if (vic==''): print("Draw!") # can also check the condition  if x==8
+    elif option==2:
+        print("Person "+vic.upper()+" Wins!")
+    #below lines are for computer mode that is, when option==1
+    elif x%2:
+        print("You Won!")
     else:
-        if (option-1):
-            print("Person X Wins!")
-        else:
-            print("I Won!")
+        print("I Won!")
 
 def main():
     print("Welcome to Tic Tac Toe!")
@@ -125,4 +150,5 @@ def main():
         want_to_play = input("Do you want to play again? (y/n): ").lower()
     print("Thanks for playing!")
 
-main()
+if __name__ == "__main__":
+    main()
