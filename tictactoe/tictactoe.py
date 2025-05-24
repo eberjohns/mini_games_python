@@ -1,10 +1,12 @@
 from random import randrange
 
-# display_board(board,n,sign) to print the board
-# victory_for(board, sign)    to check if a player has won
-# computer_move(board)        to draw the computer's move
-# person_move(board,sign)          to draw the player's move
-# game_round(option)                to initialize the game
+# display_board(board)      to print the board
+# victory_for(board)        to check if a player has won
+# calculate(board,n,sign)   to update the board with the player's move
+# number_available(board,n) to check if a position is available for the move
+# computer_move(board)      to draw the computer's move
+# person_move(board,sign)   to draw the player's move
+# game_round(option)        to initialize the game
 
 def display_board(board):
     # The function accepts one parameter containing the board's current status
@@ -16,7 +18,7 @@ def display_board(board):
         print("|       |       |       |")
     print("+-------+-------+-------+")
 
-def victory_for(board, sign):
+def victory_for(board):
     # The function analyzes the board's status in order to check if 
     # the player using 'O's or 'X's has won the game
     for i in range(3):
@@ -47,52 +49,36 @@ def calculate(board,n,sign):
 def number_available(board,n):
     # The function checks if the position is available for the move.
     for row in board:
-        if n in row: return False
-    return True
+        if n in row: return True
+    return False
 
 def computer_move(board):
     # The function draws the computer's move and updates the board.
     found = False
     while not found:
         n = randrange(1,10)
-        if number_available(board,n):
-            found = True
+        if number_available(board,n): found = True
 
     calculate(board,n,'x')
 
-def person_move(board):
+def person_move(board,sign=''):
     # The function accepts the board's current status, asks the user about their move, 
     # checks the input, and updates the board according to the user's decision.
     found = False
     while not found:
         try:
-            n = int(input("Enter your move: "))
-            if n < 1 or n > 9:
-                print("Invalid move. Please enter a number between 1 and 9.")
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-        
+            n = int(input(f"Enter your move, Person {sign}: " if sign in ['x','o'] else "Enter your move: "))
+            if n not in range(1, 10):
+                print("!Please enter a number between 1 and 9.")
+            elif number_available(board,n): found = True
             else: print("Postion already taken!")
-
-    calculate(board,n,'o')
-
-def pvp(board,sign):
-    # The function accepts the board's current status and the sign of the player,
-    # asks the user about their move, checks the input, and updates the board
-    # according to the user's decision.
-    found = False
-    while not found:
-        try:
-            n = int(input("Enter your move, Person "+sign+": "))
-            if n < 1 or n > 9:
-                print("Invalid move. Please enter a number between 1 and 9.")
         except ValueError:
             print("Invalid input. Please enter a number.")
-        for row in board:
-            if n in row: found=True
-        if not found: print("Postion already taken!")
 
-    calculate(board,n,sign)
+    if sign == '':
+        calculate(board,n,'o')
+    else:
+        calculate(board,n,sign)
 
 # The function initializes the game, draws the board, and starts the game loop.
 def game_round(option:int):
@@ -107,16 +93,16 @@ def game_round(option:int):
     while vic=='' and x<8:
         if x%2:
             if(option==2):
-                pvp(board,"x")
+                person_move(board,"x")
             else:
                 computer_move(board)            
-            vic = 'x' if victory_for(board,"x") else ''
+            vic = 'x' if victory_for(board) else ''
         else:
             if(option==2):
-                pvp(board,"o")
+                person_move(board,"o")
             else:
                 person_move(board)
-            vic = 'o' if victory_for(board,"o") else ''
+            vic = 'o' if victory_for(board) else ''
         x +=1
 
     if (vic==''): print("Draw!") # can also check the condition  if x==8
