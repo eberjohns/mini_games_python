@@ -53,13 +53,34 @@ def number_available(board,n):
     return False
 
 def computer_move(board):
-    # The function draws the computer's move and updates the board.
-    found = False
-    while not found:
-        n = randrange(1,10)
-        if number_available(board,n): found = True
+    def check_win_or_block(sign):
+        for i in range(3):
+            for j in range(3):
+                if isinstance(board[i][j], int):  # Check if the cell is empty
+                    original = board[i][j]
+                    board[i][j] = sign
+                    if victory_for(board):
+                        board[i][j] = original  # Revert after check
+                        return (i, j)
+                    board[i][j] = original  # Revert after check
+        return None
 
-    calculate(board,n,'x')
+    # Step 1: Try to win
+    move = check_win_or_block('x')
+    
+    # Step 2: Try to block the player from winning
+    if not move:
+        move = check_win_or_block('o')
+    
+    # Step 3: Random move if no win or block
+    if not move:
+        empty = [(i, j) for i in range(3) for j in range(3) if isinstance(board[i][j], int)]
+        move = empty[randrange(len(empty))]
+
+    i, j = move
+    board[i][j] = 'x'
+    display_board(board)
+
 
 def person_move(board,sign=''):
     # The function accepts the board's current status, asks the user about their move, 
