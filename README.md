@@ -21,6 +21,9 @@ git clone https://github.com/eberjohns/mini_games_python.git
 ## Current Games
 
 * **TicTacToe:** A classic two-player game where players take turns marking spaces in a 3x3 grid with their symbol ('X' or 'O'), trying to get three in a row.
+    * [Play Tic Tac Toe](tictactoe/)
+* **Rock, Paper, Scissors:** A classic hand game where players say "rock," "paper," or "scissors" and simultaneously form one of three shapes with an outstretched hand.
+    * [Play Rock, Paper, Scissors](rock_paper_scissors/)
 
 ## Contributing
 
