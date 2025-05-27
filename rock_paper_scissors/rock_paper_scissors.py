@@ -9,24 +9,24 @@ def computer_pick():
     return randrange(3)
 
 def player_pick():
-    pick = input("Choose your pick:\n- Rock(r/R)\n- Paper(p/P)\n- Scissor(s/S)\n-> ")
-    if pick.lower() == 'r':
-        return 0
-    elif pick.lower() == 'p':
-        return 1
-    elif pick.lower() == 's':
-        return 2
-    else:
-        print("Invalid choice. Please choose r, p, or s.")
-        return player_pick()
+    while True:
+        pick = input("Choose your pick:\n- Rock(r/R)\n- Paper(p/P)\n- Scissor(s/S)\n-> ")
+        if pick.lower() == 'r':
+            return 0
+        elif pick.lower() == 'p':
+            return 1
+        elif pick.lower() == 's':
+            return 2
+        else:
+            print("Invalid choice. Please choose r, p, or s.")
 
 def is_player_winner(player, computer):
     if player == computer:
-        return "It's a tie!"
+        return -1
     elif (player == 0 and computer == 2) or (player == 1 and computer == 0) or (player == 2 and computer == 1):
-        return True
+        return 1
     else:
-        return False
+        return 0
 
 def main():
     print("Welcome to Rock Paper Scissors!")
@@ -38,8 +38,10 @@ def main():
         print(f"Computer picked: {choices[computer]}")
         
         result = is_player_winner(player, computer)
-        if result:
+        if result == 1:
             print(f"\n{choices[player]} beats {choices[computer]} - You Won!")
+        elif result == -1:
+            print("\nIt's a Tie!")
         else:
             print(f"\n{choices[computer]} beats {choices[player]} - You Lost!")
         
