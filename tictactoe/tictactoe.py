@@ -1,4 +1,11 @@
 from random import randrange
+import os
+
+# ANSI escape codes for colors and bold text
+RED_BOLD = "\033[1;31m"
+BLUE_BOLD = "\033[1;34m"
+RESET = "\033[0m"
+
 
 # display_board(board)      to print the board
 # victory_for(board)        to check if a player has won
@@ -8,14 +15,27 @@ from random import randrange
 # person_move(board,sign)   to draw the player's move
 # game_round(option)        to initialize the game
 
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def display_board(board):
+    clear_screen()  # Clears the terminal before displaying the board
     # The function accepts one parameter containing the board's current status
     # and prints it out to the console.
     for row in range(3):
         print("+-------+-------+-------+")
         print("|       |       |       |")
-        print("|   {}   |   {}   |   {}   |".format(board[row][0],board[row][1],board[row][2]))
-        print("|       |       |       |")
+        print("|", end="")
+        for col in range(3):
+            cell = board[row][col]
+            if cell == 'x':
+                cell_display = f"{RED_BOLD}X{RESET}"
+            elif cell == 'o':
+                cell_display = f"{BLUE_BOLD}O{RESET}"
+            else:
+                cell_display = str(cell)
+            print(f"   {cell_display}   |", end="")
+        print("\n|       |       |       |")
     print("+-------+-------+-------+")
 
 def victory_for(board):
