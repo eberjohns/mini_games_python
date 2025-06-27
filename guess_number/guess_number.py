@@ -6,19 +6,32 @@ def pick_number(limit):
 
 # Function to get the player's guess
 def get_player_guess(limit):
-    guess = int(input(f"Guess a number between 0 and {limit - 1}: "))
-    return guess
+    while True:
+        try:
+            guess = int(input(f"Guess a number between 0 and {limit - 1}: "))
+            return guess
+        except ValueError:
+            print("Invalid input. Please enter a number.")
 
 # Main function to run the game
 def main():
     print("Welcome to Guess The Number!")
-    z=1
-    while z==1:
+
+    z = 1
+    while z == 1:
         attempts = 0  # To count number of attempts
-        
+
         # Get the upper limit from the user
-        limit = int(input("Enter the upper limit for the guessing range: "))
-        
+        while True:
+            try:
+                limit = int(input("Enter the upper limit for the guessing range: "))
+                if limit < 2:
+                    print("Please enter a number greater than 1.")
+                    continue
+                break
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+
         # Random number to be guessed
         secret_number = pick_number(limit)
 
@@ -34,7 +47,13 @@ def main():
             else:
                 print(f"Congratulations! You guessed the number {secret_number} in {attempts} attempts.")
                 break
-        z=int(input("Do you want to continue? (1/0) "))
+            
+        # Ask if they want to continue
+        try:
+            z = int(input("Do you want to continue? (1 = Yes, 0 = No): "))
+        except ValueError:
+            print("Invalid input. Exiting game.")
+            break
 
 # Run the main function
 if __name__ == "__main__":
