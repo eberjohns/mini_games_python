@@ -24,6 +24,8 @@ git clone https://github.com/eberjohns/mini_games_python.git
     * [Play Tic Tac Toe](tictactoe/)
 * **Rock, Paper, Scissors:** A classic hand game where players say "rock," "paper," or "scissors" and simultaneously form one of three shapes with an outstretched hand.
     * [Play Rock, Paper, Scissors](rock_paper_scissors/)
+* **Guess Number:** A simple game where you set an upper limit and guess which number computer chose to which it responds with "Too high" or "Too low".
+    * [Play Guess Number](guess_number)
 
 ## Contributing
 
