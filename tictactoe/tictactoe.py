@@ -1,4 +1,5 @@
 from random import randrange
+import os
 
 # display_board(board)      to print the board
 # victory_for(board)        to check if a player has won
@@ -8,7 +9,11 @@ from random import randrange
 # person_move(board,sign)   to draw the player's move
 # game_round(option)        to initialize the game
 
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def display_board(board):
+    clear_screen()  # Clears the terminal before displaying the board
     # The function accepts one parameter containing the board's current status
     # and prints it out to the console.
     for row in range(3):
