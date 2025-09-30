@@ -1,4 +1,7 @@
 from random import randrange
+from colorama import Fore, Style, init
+init(autoreset=True)
+
 
 # display_board(board)      to print the board
 # victory_for(board)        to check if a player has won
@@ -7,6 +10,13 @@ from random import randrange
 # computer_move(board)      to draw the computer's move
 # person_move(board,sign)   to draw the player's move
 # game_round(option)        to initialize the game
+def colored_symbol(symbol):
+    if symbol == "x" or symbol == "X":
+        return Fore.RED + str(symbol) + Style.RESET_ALL
+    elif symbol == "o" or symbol == "O":
+        return Fore.GREEN + str(symbol) + Style.RESET_ALL
+    else:
+        return str(symbol)  # numbers stay white
 
 def display_board(board):
     # The function accepts one parameter containing the board's current status
@@ -14,7 +24,7 @@ def display_board(board):
     for row in range(3):
         print("+-------+-------+-------+")
         print("|       |       |       |")
-        print("|   {}   |   {}   |   {}   |".format(board[row][0],board[row][1],board[row][2]))
+        print("|   {}   |   {}   |   {}   |".format(colored_symbol(board[row][0]),colored_symbol(board[row][1]),colored_symbol(board[row][2])))
         print("|       |       |       |")
     print("+-------+-------+-------+")
 
